@@ -2,6 +2,7 @@ package org.example.mybank.service;
 
 import org.example.mybank.entity.AccountInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.mybank.entity.paramObject.addAccount_param;
 
 /**
 * @author Mr.J
@@ -10,5 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface AccountInfoService extends IService<AccountInfo> {
 
-    boolean test(AccountInfo accountInfo);
+
+    boolean addAccount(addAccount_param accountParam);
 }

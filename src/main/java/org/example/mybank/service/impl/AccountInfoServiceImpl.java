@@ -1,11 +1,16 @@
 package org.example.mybank.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.AccountInfo;
+import org.example.mybank.entity.paramObject.addAccount_param;
 import org.example.mybank.service.AccountInfoService;
 import org.example.mybank.mapper.AccountInfoMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Mr.J
@@ -17,11 +22,16 @@ import org.springframework.stereotype.Service;
 public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, AccountInfo> implements AccountInfoService {
     final private AccountInfoMapper accountInfoMapper;
 
-
     @Override
-    public boolean test(AccountInfo accountInfo) {
-       // accountInfoMapper.insert(accountInfo);
-        return false;
+    public boolean addAccount(addAccount_param accountParam) {
+        QueryWrapper<AccountInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("accountNumber", accountParam.getAccountNumber());
+
+        if(accountInfoMapper.exists(queryWrapper)){
+            return false;
+        }
+        accountInfoMapper.insertParam(accountParam);
+        return true;
     }
 }
 
