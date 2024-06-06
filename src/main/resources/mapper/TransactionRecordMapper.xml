@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mybank.mapper.TransactionRecordMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.mybank.entity.TransactionRecord">
+            <id property="transactionId" column="transactionId" jdbcType="INTEGER"/>
+            <result property="accountId" column="accountId" jdbcType="INTEGER"/>
+            <result property="transactionType" column="transactionType" jdbcType="INTEGER"/>
+            <result property="transactionAmount" column="transactionAmount" jdbcType="DECIMAL"/>
+            <result property="transactionTime" column="transactionTime" jdbcType="TIMESTAMP"/>
+            <result property="transferToAccountId" column="transferToAccountId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        transactionId,accountId,transactionType,
+        transactionAmount,transactionTime,transferToAccountId
+    </sql>
+</mapper>
