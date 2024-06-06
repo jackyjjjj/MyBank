@@ -1,13 +1,11 @@
 package org.example.mybank.mapper;
 
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.example.mybank.entity.AccountInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.example.mybank.entity.paramObject.addAccount_param;
-
-import java.util.List;
+import org.example.mybank.entity.myObject.addAccount_param;
 
 /**
  * @author Mr.J
@@ -16,13 +14,17 @@ import java.util.List;
  * @Entity org.example.mybank.entity.AccountInfo
  */
 public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
-    @Select("SELECT * FROM account_info WHERE accountNumber = #{accountNumber}")
-    List<AccountInfo> selectAllByAccountNumber(@Param("accountNumber") String accountNumber);
 
     @Insert("insert into account_info (accountType,accountNumber,balance,isValid,quota,staffId) values " +
             "(#{accountType}, #{accountNumber}, #{balance}, " +
             "#{isValid},#{quota},#{staffId}  )")
     boolean insertParam(addAccount_param accountParam);
+
+    @Select("SELECT * FROM account_info WHERE accountNumber = #{accountNumber}")
+    AccountInfo selectByAccountNumber(String accountNumber);
+
+    @Update("UPDATE account_info SET isValid = 0 WHERE accountNumber = #{accountNumber}")
+    boolean deleteAccountLogically(String accountNumber);
 }
 
 

@@ -10,9 +10,9 @@
             <result property="dicItemCode" column="dicItemCode" jdbcType="INTEGER"/>
             <result property="dicItemName" column="dicItemName" jdbcType="VARCHAR"/>
     </resultMap>
+    <select id="selectTypeItem" resultType="java.util.Map">
+        select dicTypeCode,dicItemCode from dicitem
+    </select>
 
-    <sql id="Base_Column_List">
-        dicItemId,dicTypeCode,dicItemCode,
-        dicItemName
-    </sql>
+
 </mapper>

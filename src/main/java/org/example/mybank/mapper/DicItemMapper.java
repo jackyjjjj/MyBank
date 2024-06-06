@@ -1,7 +1,11 @@
 package org.example.mybank.mapper;
 
+import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Mapper;
 import org.example.mybank.entity.DicItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.Map;
 
 /**
 * @author Mr.J
@@ -10,6 +14,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity org.example.mybank.entity.Dicitem
 */
 public interface DicItemMapper extends BaseMapper<DicItem> {
+    @MapKey("dicTypeCode")
+    Map<Integer,Integer> selectTypeItem();
 
 }
 

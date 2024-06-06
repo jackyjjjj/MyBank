@@ -1,10 +1,10 @@
-package org.example.mybank.entity.paramObject;
+package org.example.mybank.entity.myObject;
 
 
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+
 @Data
 public class addAccount_param {
     private Integer accountType;
