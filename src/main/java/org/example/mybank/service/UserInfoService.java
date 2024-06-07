@@ -2,6 +2,7 @@ package org.example.mybank.service;
 
 import org.example.mybank.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.mybank.entity.myObject.addUser_param;
 
 /**
 * @author Mr.J
@@ -10,4 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface UserInfoService extends IService<UserInfo> {
     boolean verify_identityNumber(String identityNumber);
+
+    boolean addUser(addUser_param userParam);
+    boolean delUser(String identityNumber);
 }

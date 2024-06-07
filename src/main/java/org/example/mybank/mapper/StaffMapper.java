@@ -1,5 +1,6 @@
 package org.example.mybank.mapper;
 
+import org.apache.ibatis.annotations.Select;
 import org.example.mybank.entity.Staff;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -9,8 +10,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @createDate 2024-06-05 22:50:02
 * @Entity org.example.mybank.entity.Staff
 */
-public interface StaffMapper extends BaseMapper<Staff> {
 
+
+public interface StaffMapper extends BaseMapper<Staff> {
+    @Select("select * from staff where staffName = #{name} and password = #{password}")
+    public boolean selectStaff(String name,String password);
 }
 
 

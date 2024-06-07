@@ -5,14 +5,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.AccountInfo;
 import org.example.mybank.entity.DicItem;
+import org.example.mybank.entity.myObject.EncryptPassword;
 import org.example.mybank.entity.myObject.StaticDicItem;
 import org.example.mybank.entity.myObject.accountView;
 import org.example.mybank.entity.myObject.addAccount_param;
 import org.example.mybank.mapper.DicItemMapper;
+import org.example.mybank.mapper.PasswordKeyMapper;
+import org.example.mybank.mapper.UserInfoMapper;
 import org.example.mybank.service.AccountInfoService;
 import org.example.mybank.mapper.AccountInfoMapper;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,6 +30,8 @@ import java.util.List;
 public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, AccountInfo> implements AccountInfoService {
     final private AccountInfoMapper accountInfoMapper;
     final private DicItemMapper dicItemMapper;
+    final private PasswordKeyMapper passwordKeyMapper;
+    final private UserInfoMapper userInfoMapper;
 
     @Override
     public boolean verify_accountNumber(String accountNumber) {
@@ -53,6 +59,24 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
     @Override
     public boolean verify_quota(Integer quota) {
         return StaticDicItem.check(5, quota);
+    }
+
+    @Override
+    public boolean verify_password(String accountNumber,String password){
+        return true;
+    }
+
+
+
+
+    @Override
+    public List<accountView> getAllAccountView(){
+        List<accountView> list = accountInfoMapper.selectAllAccount();
+        System.out.println(list.size());
+        for (accountView account : list){
+            fillAccountView(account,account.getQuota(),account.getAccountType(),account.getIsValid());
+        }
+        return list;
     }
 
     @Override
@@ -84,7 +108,15 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
     }
 
     @Override
-    public boolean addAccount(addAccount_param accountParam) {
+    public boolean addAccount(addAccount_param accountParam) throws Exception {
+
+        System.out.println(accountParam.toString());
+
+        accountParam.setUserId(userInfoMapper.selectUserIdByIdentityNumber(accountParam.getUserId()));
+        SecretKey key = EncryptPassword.generateKey();
+        accountParam.setPassword(EncryptPassword.encrypt(accountParam.getPassword(), key));
+        passwordKeyMapper.setPasswordKey(accountParam.getAccountNumber(), EncryptPassword.keyToString(key));
+
         accountInfoMapper.insertParam(accountParam);
         return true;
     }

@@ -21,10 +21,16 @@ public interface AccountInfoService extends IService<AccountInfo> {
     boolean verify_accountType(Integer type);
     boolean verify_accountStatus(Integer status);
     boolean verify_quota(Integer quota);
+    boolean verify_password(String accountNumber,String password);
+
+
 
     void fillAccountView(accountView accountView,String quota,String accountType,String isValid);
-    boolean addAccount(addAccount_param accountParam);
+    boolean addAccount(addAccount_param accountParam) throws Exception;
 
+
+
+    List<accountView> getAllAccountView();
     List<accountView> getAccountViewByIdentityNumber(String identityNumber);
     accountView getAccountViewByAccountNumber(String accountNumber);
 

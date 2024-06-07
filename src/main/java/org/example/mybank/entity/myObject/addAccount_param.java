@@ -11,6 +11,8 @@ public class addAccount_param {
 
     private String accountNumber;
 
+    private String password;
+
     private BigDecimal balance;
 
     private Integer isValid;
@@ -18,6 +20,8 @@ public class addAccount_param {
     private Integer quota;
 
     private Integer staffId;
+
+    private String userId;
 
 
 

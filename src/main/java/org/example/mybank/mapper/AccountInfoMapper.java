@@ -18,9 +18,9 @@ import java.util.List;
  */
 public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
 
-    @Insert("insert into account_info (accountType,accountNumber,balance,isValid,quota,staffId) values " +
+    @Insert("insert into account_info (accountType,accountNumber,balance,isValid,quota,staffId,password,userId) values " +
             "(#{accountType}, #{accountNumber}, #{balance}, " +
-            "#{isValid},#{quota},#{staffId}  )")
+            "#{isValid},#{quota},#{staffId},#{password},#{userId})")
     boolean insertParam(addAccount_param accountParam);
 
     @Update("UPDATE account_info SET isValid = 0 WHERE accountNumber = #{accountNumber}")
@@ -57,6 +57,21 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "         left join staff s on a.staffId = s.staffId\n" +
             "where a.accountNumber = #{accountNumber}")
     accountView selectByAccountNumber(String accountNumber);
+
+    @Select("select\n" +
+            "    u.userName,\n" +
+            "    a.accountNumber,\n" +
+            "    a.balance,\n" +
+            "    a.quota,\n" +
+            "    a.isValid,\n" +
+            "    a.accountType,\n" +
+            "    a.createTime,\n" +
+            "    u.phoneNumber AS phone,\n" +
+            "    s.staffName\n" +
+            "from account_info a\n" +
+            "         left join user_info u on a.userId = u.userId\n" +
+            "         left join staff s on a.staffId = s.staffId\n")
+    List<accountView> selectAllAccount();
 }
 
 

@@ -17,5 +17,7 @@ public class Staff implements Serializable {
 
     private String staffName;
 
+    private String password;
+
     private static final long serialVersionUID = 1L;
 }
