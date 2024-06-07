@@ -9,5 +9,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-06-05 22:50:02
 */
 public interface UserInfoService extends IService<UserInfo> {
-
+    boolean verify_identityNumber(String identityNumber);
 }

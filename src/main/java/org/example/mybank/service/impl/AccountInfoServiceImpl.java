@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.AccountInfo;
 import org.example.mybank.entity.DicItem;
+import org.example.mybank.entity.myObject.StaticDicItem;
+import org.example.mybank.entity.myObject.accountView;
 import org.example.mybank.entity.myObject.addAccount_param;
 import org.example.mybank.mapper.DicItemMapper;
 import org.example.mybank.service.AccountInfoService;
@@ -12,6 +14,7 @@ import org.example.mybank.mapper.AccountInfoMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Mr.J
@@ -39,11 +42,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
 
     @Override
     public boolean verify_accountType(Integer type) {
-        QueryWrapper<DicItem> dicItemQueryWrapper = new QueryWrapper<>();
-        dicItemQueryWrapper.eq("dicTypeCode", 2);
-        dicItemQueryWrapper.eq("dicItemCode", type);
-
-        return dicItemMapper.exists(dicItemQueryWrapper);
+        return StaticDicItem.check(2, type);
     }
 
     @Override
@@ -53,28 +52,43 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
 
     @Override
     public boolean verify_quota(Integer quota) {
-        QueryWrapper<DicItem> dicItemQueryWrapper = new QueryWrapper<>();
-        dicItemQueryWrapper.eq("dicTypeCode", 5);
-        dicItemQueryWrapper.eq("dicItemCode", quota);
+        return StaticDicItem.check(5, quota);
+    }
 
-        return dicItemMapper.exists(dicItemQueryWrapper);
+    @Override
+    public List<accountView> getAccountViewByIdentityNumber(String identityNumber){
+        List<accountView> list = accountInfoMapper.selectByIdentityNumber(identityNumber);
+        System.out.println(list.size());
+        for (accountView account : list){
+            fillAccountView(account,account.getQuota(),account.getAccountType(),account.getIsValid());
+        }
+        return list;
+    }
+
+    @Override
+    public accountView getAccountViewByAccountNumber(String accountNumber){
+        accountView account = accountInfoMapper.selectByAccountNumber(accountNumber);
+        System.out.println(account.toString());
+        fillAccountView(account,account.getQuota(),account.getAccountType(),account.getIsValid());
+
+        return account;
+    }
+
+
+
+    @Override
+    public void fillAccountView(accountView account,String quota,String accountType,String isValid){
+        account.setQuota(StaticDicItem.getTypeName(5,Integer.valueOf(quota)));
+        account.setAccountType(StaticDicItem.getTypeName(2,Integer.valueOf(accountType)));
+        account.setIsValid(StaticDicItem.getTypeName(1,Integer.valueOf(isValid)));
     }
 
     @Override
     public boolean addAccount(addAccount_param accountParam) {
-        //账号已经存在、余额小于0、account、quota类型不合法、设置的状态不为1 就返回false
-        if (verify_accountNumber(accountParam.getAccountNumber()) ||
-                verify_balance(accountParam.getBalance()) ||
-                !verify_accountType(accountParam.getAccountType()) ||
-                !verify_accountStatus(accountParam.getIsValid()) ||
-                !verify_quota(accountParam.getQuota())) {
-            return false;
-
-        } else {
-            accountInfoMapper.insertParam(accountParam);
-            return true;
-        }
+        accountInfoMapper.insertParam(accountParam);
+        return true;
     }
+
 
     @Override
     public boolean closeAccount(String accountNumber) {

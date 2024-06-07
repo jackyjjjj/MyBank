@@ -5,7 +5,10 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.example.mybank.entity.AccountInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.example.mybank.entity.myObject.accountView;
 import org.example.mybank.entity.myObject.addAccount_param;
+
+import java.util.List;
 
 /**
  * @author Mr.J
@@ -20,11 +23,40 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "#{isValid},#{quota},#{staffId}  )")
     boolean insertParam(addAccount_param accountParam);
 
-    @Select("SELECT * FROM account_info WHERE accountNumber = #{accountNumber}")
-    AccountInfo selectByAccountNumber(String accountNumber);
-
     @Update("UPDATE account_info SET isValid = 0 WHERE accountNumber = #{accountNumber}")
     boolean deleteAccountLogically(String accountNumber);
+
+    @Select("select\n" +
+            "    u.userName,\n" +
+            "    a.accountNumber,\n" +
+            "    a.balance,\n" +
+            "    a.quota,\n" +
+            "    a.isValid,\n" +
+            "    a.accountType,\n" +
+            "    a.createTime,\n" +
+            "    u.phoneNumber AS phone,\n" +
+            "    s.staffName\n" +
+            "from account_info a\n" +
+            "         left join user_info u on a.userId = u.userId\n" +
+            "         left join staff s on a.staffId = s.staffId\n" +
+            "where u.identityNumber = #{identityNumber}")
+    List<accountView> selectByIdentityNumber(String identityNumber);
+
+    @Select("select\n" +
+            "    u.userName,\n" +
+            "    a.accountNumber,\n" +
+            "    a.balance,\n" +
+            "    a.quota,\n" +
+            "    a.isValid,\n" +
+            "    a.accountType,\n" +
+            "    a.createTime,\n" +
+            "    u.phoneNumber AS phone,\n" +
+            "    s.staffName\n" +
+            "from account_info a\n" +
+            "         left join user_info u on a.userId = u.userId\n" +
+            "         left join staff s on a.staffId = s.staffId\n" +
+            "where a.accountNumber = #{accountNumber}")
+    accountView selectByAccountNumber(String accountNumber);
 }
 
 

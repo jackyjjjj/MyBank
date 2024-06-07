@@ -2,9 +2,11 @@ package org.example.mybank.service;
 
 import org.example.mybank.entity.AccountInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.mybank.entity.myObject.accountView;
 import org.example.mybank.entity.myObject.addAccount_param;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @author Mr.J
@@ -20,8 +22,11 @@ public interface AccountInfoService extends IService<AccountInfo> {
     boolean verify_accountStatus(Integer status);
     boolean verify_quota(Integer quota);
 
-
+    void fillAccountView(accountView accountView,String quota,String accountType,String isValid);
     boolean addAccount(addAccount_param accountParam);
+
+    List<accountView> getAccountViewByIdentityNumber(String identityNumber);
+    accountView getAccountViewByAccountNumber(String accountNumber);
 
     boolean closeAccount(String accountNumber);
 }
