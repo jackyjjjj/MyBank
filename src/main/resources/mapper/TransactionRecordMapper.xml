@@ -17,4 +17,22 @@
         transactionId,accountId,transactionType,
         transactionAmount,transactionTime,transferToAccountId
     </sql>
+    <select id="selectTransactionRecord" resultType="org.example.mybank.entity.myObject.transactionView">
+        SELECT sender.accountNumber AS accountNumber,
+        receiver.accountNumber AS transferToAccount,
+        t.transactionType,
+        t.transactionAmount,
+        t.transactionTime
+        FROM transaction_record t
+        LEFT JOIN
+        account_info sender ON t.accountId = sender.accountId
+        LEFT JOIN
+        account_info receiver ON t.transferToAccountId = receiver.accountId
+        <where>
+            t.accountId = #{accountId}
+            <if test="dateBegin != null and dateBegin != '' and dateEnd != null and dateEnd != ''">
+                and transactionTime between #{dateBegin} and #{dateEnd}
+            </if>
+        </where>
+    </select>
 </mapper>

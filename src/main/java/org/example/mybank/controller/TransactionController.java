@@ -10,6 +10,7 @@ import org.example.mybank.mapper.AccountInfoMapper;
 import org.example.mybank.service.TransactionRecordService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
@@ -29,11 +30,11 @@ public class TransactionController {
         if (Integer.parseInt(toAccount.getIsValid()) == 0) {
             return new JsonResult(false, "对方账户无效");
         }
-        if(!param.getToAccountName().equals(toAccount.getUserName())){
+        if (!param.getToAccountName().equals(toAccount.getUserName())) {
             return new JsonResult(false, "对方账户名错误");
         }
 
-        if(!param.getPassword().equals(EncryptPassword.decrypt(account.getPassword()))){
+        if (!param.getPassword().equals(EncryptPassword.decrypt(account.getPassword()))) {
             return new JsonResult(false, "密码错误");
         }
 
@@ -49,5 +50,10 @@ public class TransactionController {
         return new JsonResult(false, "转账失败");
     }
 
-
+    @PostMapping("/transaction/selectRecords")
+    public JsonResult selectRecords(@RequestParam("dateBegin") String dateBegin,
+                                    @RequestParam("dateEnd") String dateEnd,
+                                    @RequestParam("accountNumber") String accountNumber) throws Exception {
+        return new JsonResult(transactionRecordService.selectTransactionRecord(dateBegin, dateEnd, accountNumber));
+    }
 }

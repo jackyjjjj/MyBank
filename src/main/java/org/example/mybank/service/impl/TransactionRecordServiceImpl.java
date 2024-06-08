@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.TransactionRecord;
 import org.example.mybank.entity.myObject.StaticDicItem;
 import org.example.mybank.entity.myObject.accountView;
+import org.example.mybank.entity.myObject.transactionView;
 import org.example.mybank.entity.myObject.transaction_param;
 import org.example.mybank.mapper.AccountInfoMapper;
 import org.example.mybank.service.TransactionRecordService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Mr.J
@@ -52,6 +54,12 @@ public class TransactionRecordServiceImpl extends ServiceImpl<TransactionRecordM
     public boolean checkQuota(accountView accountView, double amount) {
         double quota = Double.parseDouble(StaticDicItem.getTypeName(5, Integer.valueOf(accountView.getQuota())));
         return quota >= amount;
+    }
+
+    @Override
+    public List<transactionView> selectTransactionRecord(String dateBegin, String dateEnd, String accountNumber){
+        String accountId = accountInfoMapper.selectAccountIdByAccountNumber(accountNumber);
+        return transactionRecordMapper.selectTransactionRecord(dateBegin, dateEnd, accountId);
     }
 
 

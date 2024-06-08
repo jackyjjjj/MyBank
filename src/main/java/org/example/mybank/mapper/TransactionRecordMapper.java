@@ -1,9 +1,14 @@
 package org.example.mybank.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.example.mybank.entity.TransactionRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.example.mybank.entity.myObject.transactionView;
+
+import java.util.List;
 
 /**
  * @author Mr.J
@@ -20,6 +25,10 @@ public interface TransactionRecordMapper extends BaseMapper<TransactionRecord> {
     @Insert("insert into transaction_record(accountId,transactionType,transactionAmount,transferToAccountId) value " +
             "(#{accountId},#{transactionType},#{transactionAmount},#{transferToAccountId})")
     public boolean insertTransactionRecord(TransactionRecord transactionRecord);
+
+
+
+    List<transactionView> selectTransactionRecord(String dateBegin,String dateEnd,String accountId);
 }
 
 
