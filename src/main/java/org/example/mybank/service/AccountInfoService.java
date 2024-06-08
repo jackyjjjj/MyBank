@@ -24,7 +24,6 @@ public interface AccountInfoService extends IService<AccountInfo> {
     boolean verify_password(String accountNumber,String password);
 
 
-
     void fillAccountView(accountView accountView,String quota,String accountType,String isValid);
     boolean addAccount(addAccount_param accountParam) throws Exception;
 

@@ -14,6 +14,7 @@ public class accountView {
     private String phone;
     private String quota;
     private String staffName;
+    private String password;
     private String isValid;
 
 }

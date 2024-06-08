@@ -51,7 +51,8 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "    a.accountType,\n" +
             "    a.createTime,\n" +
             "    u.phoneNumber AS phone,\n" +
-            "    s.staffName\n" +
+            "    s.staffName,\n" +
+            "    a.password\n" +
             "from account_info a\n" +
             "         left join user_info u on a.userId = u.userId\n" +
             "         left join staff s on a.staffId = s.staffId\n" +
@@ -67,7 +68,8 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "    a.accountType,\n" +
             "    a.createTime,\n" +
             "    u.phoneNumber AS phone,\n" +
-            "    s.staffName\n" +
+            "    s.staffName,\n" +
+            "    a.password\n" +
             "from account_info a\n" +
             "         left join user_info u on a.userId = u.userId\n" +
             "         left join staff s on a.staffId = s.staffId\n")
