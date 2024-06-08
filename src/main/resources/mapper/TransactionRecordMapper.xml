@@ -19,7 +19,7 @@
     </sql>
     <select id="selectTransactionRecord" resultType="org.example.mybank.entity.myObject.transactionView">
         SELECT sender.accountNumber AS accountNumber,
-        receiver.accountNumber AS transferToAccount,
+        receiver.accountNumber AS transferToAccountNumber,
         t.transactionType,
         t.transactionAmount,
         t.transactionTime
