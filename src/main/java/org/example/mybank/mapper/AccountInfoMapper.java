@@ -74,6 +74,10 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "         left join user_info u on a.userId = u.userId\n" +
             "         left join staff s on a.staffId = s.staffId\n")
     List<accountView> selectAllAccount();
+
+
+    @Select("select account_info.accountId from account_info where accountNumber = #{accountNumber}")
+    String selectAccountIdByAccountNumber(String accountNumber);
 }
 
 

@@ -14,4 +14,5 @@ public interface TransactionRecordService extends IService<TransactionRecord> {
     boolean transfer(transaction_param param);
     boolean checkBalance(accountView accountView, double amount);
     boolean checkQuota(accountView accountView, double amount);
+
 }

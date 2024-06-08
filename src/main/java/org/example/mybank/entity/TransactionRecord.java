@@ -20,7 +20,7 @@ public class TransactionRecord implements Serializable {
     private Integer transactionId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer accountId;
+    private String accountId;
 
     private Integer transactionType;
 
@@ -29,7 +29,7 @@ public class TransactionRecord implements Serializable {
     private Date transactionTime;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer transferToAccountId;
+    private String transferToAccountId;
 
     private static final long serialVersionUID = 1L;
 }

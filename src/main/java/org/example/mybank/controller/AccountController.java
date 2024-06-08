@@ -2,15 +2,10 @@ package org.example.mybank.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.JsonResult;
-import org.example.mybank.entity.myObject.EncryptPassword;
 import org.example.mybank.entity.myObject.addAccount_param;
-import org.example.mybank.mapper.PasswordKeyMapper;
-import org.example.mybank.mapper.UserInfoMapper;
 import org.example.mybank.service.AccountInfoService;
 import org.example.mybank.service.UserInfoService;
 import org.springframework.web.bind.annotation.*;
-
-import javax.crypto.SecretKey;
 
 @RestController
 @RequiredArgsConstructor

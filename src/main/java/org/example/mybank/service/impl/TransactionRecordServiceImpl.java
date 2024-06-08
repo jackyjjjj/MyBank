@@ -6,10 +6,13 @@ import org.example.mybank.entity.TransactionRecord;
 import org.example.mybank.entity.myObject.StaticDicItem;
 import org.example.mybank.entity.myObject.accountView;
 import org.example.mybank.entity.myObject.transaction_param;
+import org.example.mybank.mapper.AccountInfoMapper;
 import org.example.mybank.service.TransactionRecordService;
 import org.example.mybank.mapper.TransactionRecordMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 /**
  * @author Mr.J
@@ -22,12 +25,22 @@ public class TransactionRecordServiceImpl extends ServiceImpl<TransactionRecordM
         implements TransactionRecordService {
 
     final private TransactionRecordMapper transactionRecordMapper;
+    private final AccountInfoMapper accountInfoMapper;
 
 
     @Override
     @Transactional
     public boolean transfer(transaction_param param) {
-        return transactionRecordMapper.transfer(param.getAccountNumber(), param.getToAccountNumber(), param.getAmount());
+        String account1 = accountInfoMapper.selectAccountIdByAccountNumber(param.getAccountNumber());
+        String account2 = accountInfoMapper.selectAccountIdByAccountNumber(param.getToAccountNumber());
+        TransactionRecord transactionRecord = new TransactionRecord();
+
+        transactionRecord.setAccountId(account1);
+        transactionRecord.setTransactionType(1);
+        transactionRecord.setTransactionAmount(BigDecimal.valueOf(param.getAmount()));
+        transactionRecord.setTransferToAccountId(account2);
+        return transactionRecordMapper.transfer(param.getAccountNumber(), param.getToAccountNumber(), param.getAmount()) &&
+                transactionRecordMapper.insertTransactionRecord(transactionRecord);
     }
 
     @Override
@@ -40,6 +53,8 @@ public class TransactionRecordServiceImpl extends ServiceImpl<TransactionRecordM
         double quota = Double.parseDouble(StaticDicItem.getTypeName(5, Integer.valueOf(accountView.getQuota())));
         return quota >= amount;
     }
+
+
 
 }
 

@@ -1,5 +1,6 @@
 package org.example.mybank.mapper;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.example.mybank.entity.TransactionRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -15,6 +16,10 @@ public interface TransactionRecordMapper extends BaseMapper<TransactionRecord> {
     @Update("update account_info set balance = balance - #{amount} where accountNumber = #{accountNumber1};" +
             "update account_info set balance = balance + #{amount} where accountNumber = #{accountNumber2};")
     public boolean transfer(String accountNumber1, String accountNumber2, double amount);
+
+    @Insert("insert into transaction_record(accountId,transactionType,transactionAmount,transferToAccountId) value " +
+            "(#{accountId},#{transactionType},#{transactionAmount},#{transferToAccountId})")
+    public boolean insertTransactionRecord(TransactionRecord transactionRecord);
 }
 
 

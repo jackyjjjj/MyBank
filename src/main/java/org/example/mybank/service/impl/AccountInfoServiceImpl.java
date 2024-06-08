@@ -4,19 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.AccountInfo;
-import org.example.mybank.entity.DicItem;
 import org.example.mybank.entity.myObject.EncryptPassword;
 import org.example.mybank.entity.myObject.StaticDicItem;
 import org.example.mybank.entity.myObject.accountView;
 import org.example.mybank.entity.myObject.addAccount_param;
 import org.example.mybank.mapper.DicItemMapper;
-import org.example.mybank.mapper.PasswordKeyMapper;
 import org.example.mybank.mapper.UserInfoMapper;
 import org.example.mybank.service.AccountInfoService;
 import org.example.mybank.mapper.AccountInfoMapper;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -30,7 +27,6 @@ import java.util.List;
 public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, AccountInfo> implements AccountInfoService {
     final private AccountInfoMapper accountInfoMapper;
     final private DicItemMapper dicItemMapper;
-    final private PasswordKeyMapper passwordKeyMapper;
     final private UserInfoMapper userInfoMapper;
 
     @Override
@@ -113,10 +109,7 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
         System.out.println(accountParam.toString());
 
         accountParam.setUserId(userInfoMapper.selectUserIdByIdentityNumber(accountParam.getUserId()));
-        SecretKey key = EncryptPassword.generateKey();
-        accountParam.setPassword(EncryptPassword.encrypt(accountParam.getPassword(), key));
-        passwordKeyMapper.setPasswordKey(accountParam.getAccountNumber(), EncryptPassword.keyToString(key));
-
+        accountParam.setPassword(EncryptPassword.encrypt(accountParam.getPassword()));
         accountInfoMapper.insertParam(accountParam);
         return true;
     }
