@@ -57,11 +57,14 @@ public class TransactionRecordServiceImpl extends ServiceImpl<TransactionRecordM
     }
 
     @Override
-    public List<transactionView> selectTransactionRecord(String dateBegin, String dateEnd, String accountNumber){
+    public List<transactionView> selectTransactionRecord(String dateBegin, String dateEnd, String accountNumber) {
         String accountId = accountInfoMapper.selectAccountIdByAccountNumber(accountNumber);
-        return transactionRecordMapper.selectTransactionRecord(dateBegin, dateEnd, accountId);
+        List<transactionView> list = transactionRecordMapper.selectTransactionRecord(dateBegin, dateEnd, accountId);
+        for (transactionView transactionView : list) {
+            transactionView.setTransactionType(StaticDicItem.getTypeName(4, Integer.valueOf(transactionView.getTransactionType())));
+        }
+        return list;
     }
-
 
 
 }
