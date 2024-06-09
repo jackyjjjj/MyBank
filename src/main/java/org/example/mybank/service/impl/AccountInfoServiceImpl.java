@@ -1,9 +1,12 @@
 package org.example.mybank.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.AccountInfo;
+import org.example.mybank.entity.UserInfo;
 import org.example.mybank.entity.myObject.EncryptPassword;
 import org.example.mybank.entity.myObject.StaticDicItem;
 import org.example.mybank.entity.myObject.accountView;
@@ -92,6 +95,16 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
         fillAccountView(account,account.getQuota(),account.getAccountType(),account.getIsValid());
 
         return account;
+    }
+
+    @Override
+    public Page<accountView> selectByIdPaging(Page<accountView> page, String identityNumber){
+        return accountInfoMapper.selectByIdentityNumberPaging(page,identityNumber);
+    }
+
+    @Override
+    public Page<accountView> getAllAccountViewPaging(Page<accountView> page){
+        return accountInfoMapper.selectAllAccountPaging(page);
     }
 
 

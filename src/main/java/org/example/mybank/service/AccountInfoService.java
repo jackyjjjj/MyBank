@@ -1,5 +1,6 @@
 package org.example.mybank.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.mybank.entity.AccountInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.mybank.entity.myObject.accountView;
@@ -32,6 +33,9 @@ public interface AccountInfoService extends IService<AccountInfo> {
     List<accountView> getAllAccountView();
     List<accountView> getAccountViewByIdentityNumber(String identityNumber);
     accountView getAccountViewByAccountNumber(String accountNumber);
+
+    Page<accountView> selectByIdPaging(Page<accountView> page, String identityNumber);
+    Page<accountView> getAllAccountViewPaging(Page<accountView> page);
 
     boolean closeAccount(String accountNumber);
 }

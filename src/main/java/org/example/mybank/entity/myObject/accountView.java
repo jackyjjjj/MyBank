@@ -1,6 +1,7 @@
 package org.example.mybank.entity.myObject;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 
@@ -14,6 +15,7 @@ public class accountView {
     private String phone;
     private String quota;
     private String staffName;
+    @JsonIgnore
     private String password;
     private String isValid;
 

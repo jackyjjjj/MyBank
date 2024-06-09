@@ -1,7 +1,9 @@
 package org.example.mybank.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.JsonResult;
+import org.example.mybank.entity.myObject.accountView;
 import org.example.mybank.entity.myObject.addAccount_param;
 import org.example.mybank.service.AccountInfoService;
 import org.example.mybank.service.UserInfoService;
@@ -70,6 +72,30 @@ public class AccountController {
     public JsonResult selectAll(){
 
         return new JsonResult(accountInfoService.getAllAccountView());
+    }
+
+
+    @PostMapping("/account/selectByIdPaging")
+    public JsonResult selectByIdPaging(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                       @RequestParam(name = "pageSize", defaultValue = "4") Integer pageSize,
+                                       @RequestParam(name = "searchWord", required=true) String searchWord){
+
+        Page<accountView> page = new Page<>();
+        page.setCurrent(pageNo);
+        page.setSize(pageSize);
+        return new JsonResult(accountInfoService.selectByIdPaging(page, searchWord));
+
+    }
+
+    @PostMapping("/account/selectAllAccountPaging")
+    public JsonResult selectByIdPaging(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                       @RequestParam(name = "pageSize", defaultValue = "4") Integer pageSize){
+
+        Page<accountView> page = new Page<>();
+        page.setCurrent(pageNo);
+        page.setSize(pageSize);
+        return new JsonResult(accountInfoService.getAllAccountViewPaging(page));
+
     }
 
 }

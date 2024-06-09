@@ -1,6 +1,8 @@
 package org.example.mybank.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.example.mybank.entity.AccountInfo;
@@ -39,7 +41,7 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "from account_info a\n" +
             "         left join user_info u on a.userId = u.userId\n" +
             "         left join staff s on a.staffId = s.staffId\n" +
-            "where u.identityNumber = #{identityNumber}")
+            "where u.identityNumber = #{identityNumber} and a.isValid = 1")
     List<accountView> selectByIdentityNumber(String identityNumber);
 
     @Select("select\n" +
@@ -56,7 +58,7 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "from account_info a\n" +
             "         left join user_info u on a.userId = u.userId\n" +
             "         left join staff s on a.staffId = s.staffId\n" +
-            "where a.accountNumber = #{accountNumber}")
+            "where a.accountNumber = #{accountNumber} and a.isValid = 1")
     accountView selectByAccountNumber(String accountNumber);
 
     @Select("select\n" +
@@ -72,8 +74,43 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
             "    a.password\n" +
             "from account_info a\n" +
             "         left join user_info u on a.userId = u.userId\n" +
-            "         left join staff s on a.staffId = s.staffId\n")
+            "         left join staff s on a.staffId = s.staffId\n" +
+            "where a.isValid=1")
     List<accountView> selectAllAccount();
+
+
+    @Select("select\n" +
+            "    u.userName,\n" +
+            "    a.accountNumber,\n" +
+            "    a.balance,\n" +
+            "    a.quota,\n" +
+            "    a.isValid,\n" +
+            "    a.accountType,\n" +
+            "    a.createTime,\n" +
+            "    u.phoneNumber AS phone,\n" +
+            "    s.staffName\n" +
+            "from account_info a\n" +
+            "         left join user_info u on a.userId = u.userId\n" +
+            "         left join staff s on a.staffId = s.staffId\n" +
+            "where u.identityNumber = #{identityNumber} and a.isValid = 1")
+    Page<accountView> selectByIdentityNumberPaging(Page<accountView> page, @Param("identityNumber") String identityNumber);
+
+    @Select("select\n" +
+            "    u.userName,\n" +
+            "    a.accountNumber,\n" +
+            "    a.balance,\n" +
+            "    a.quota,\n" +
+            "    a.isValid,\n" +
+            "    a.accountType,\n" +
+            "    a.createTime,\n" +
+            "    u.phoneNumber AS phone,\n" +
+            "    s.staffName,\n" +
+            "    a.password\n" +
+            "from account_info a\n" +
+            "         left join user_info u on a.userId = u.userId\n" +
+            "         left join staff s on a.staffId = s.staffId\n" +
+            "where a.isValid=1")
+    Page<accountView> selectAllAccountPaging(Page<accountView> page);
 
 
     @Select("select account_info.accountId from account_info where accountNumber = #{accountNumber}")
