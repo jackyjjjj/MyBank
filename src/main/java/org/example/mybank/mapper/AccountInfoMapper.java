@@ -115,6 +115,13 @@ public interface AccountInfoMapper extends BaseMapper<AccountInfo> {
 
     @Select("select account_info.accountId from account_info where accountNumber = #{accountNumber}")
     String selectAccountIdByAccountNumber(String accountNumber);
+
+
+    @Update("update account_info set password = #{password} where accountNumber = #{accountNumber}")
+    boolean updatePassword(String accountNumber, String password);
+
+    @Update("update account_info set quota = #{quotaLevel} where accountNumber = #{accountNumber}")
+    boolean updateQuotaLevel(String accountNumber, Integer quotaLevel);
 }
 
 

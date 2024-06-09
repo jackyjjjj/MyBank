@@ -134,6 +134,20 @@ public class AccountInfoServiceImpl extends ServiceImpl<AccountInfoMapper, Accou
         accountInfoMapper.deleteAccountLogically(accountNumber);
         return true;
     }
+
+    @Override
+    public boolean updateQuotaLevel(String accountNumber,Integer quotaLevel){
+       return accountInfoMapper.updateQuotaLevel(accountNumber,quotaLevel) ;
+    }
+
+
+    @Override
+    public boolean updatePassword(String accountNumber,String password) throws Exception {
+       return accountInfoMapper.updatePassword(accountNumber,EncryptPassword.encrypt(password));
+    }
+
+
+
 }
 
 

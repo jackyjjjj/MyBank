@@ -7,23 +7,20 @@ import java.math.BigDecimal;
 
 @Data
 public class addAccount_param {
-    private Integer accountType;
+    private Integer accountType = 1;
 
     private String accountNumber;
 
     private String password;
 
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.ZERO;
 
-    private Integer isValid;
+    private Integer isValid = 1;
 
-    private Integer quota;
+    private Integer quota = 1;
 
     private Integer staffId;
 
     private String userId;
-
-
-
 
 }

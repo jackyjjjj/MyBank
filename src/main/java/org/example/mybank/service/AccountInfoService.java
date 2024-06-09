@@ -38,4 +38,7 @@ public interface AccountInfoService extends IService<AccountInfo> {
     Page<accountView> getAllAccountViewPaging(Page<accountView> page);
 
     boolean closeAccount(String accountNumber);
+
+    boolean updateQuotaLevel(String accountNumber,Integer quotaLevel);
+    boolean updatePassword(String accountNumber,String password) throws Exception;
 }

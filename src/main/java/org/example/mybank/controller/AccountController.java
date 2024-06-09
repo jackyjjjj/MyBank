@@ -88,7 +88,7 @@ public class AccountController {
     }
 
     @PostMapping("/account/selectAllAccountPaging")
-    public JsonResult selectByIdPaging(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+    public JsonResult selectAllAccountPaging(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
                                        @RequestParam(name = "pageSize", defaultValue = "4") Integer pageSize){
 
         Page<accountView> page = new Page<>();
@@ -98,4 +98,20 @@ public class AccountController {
 
     }
 
+
+    @PostMapping("/account/changeQuota")
+    public JsonResult changeQuota(@RequestParam("quota") Integer quotaLevel,
+                                  @RequestParam("accountNumber") String accountNumber){
+
+        if(!accountInfoService.verify_quota(quotaLevel)){
+            return new JsonResult(false, "额度等级不合法");
+        }
+        return new JsonResult(accountInfoService.updateQuotaLevel(accountNumber,quotaLevel));
+    }
+
+    @PostMapping("/account/changePassword")
+    public JsonResult changePassword(@RequestParam("password") String password,
+                                     @RequestParam("accountNumber") String accountNumber) throws Exception {
+        return new JsonResult(accountInfoService.updatePassword(accountNumber,password));
+    }
 }
