@@ -32,4 +32,10 @@ public class UserController {
         }
         return new JsonResult(userInfoService.delUser(identityNumber),"删除成功");
     }
+
+    @PostMapping("/user/show")
+    public JsonResult show(@RequestParam("identityNumber") String identityNumber){
+        return new JsonResult(userInfoService.show(identityNumber));
+    }
+
 }

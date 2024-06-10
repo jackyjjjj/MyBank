@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.example.mybank.entity.AccountInfo;
 import org.example.mybank.entity.UserInfo;
+import org.example.mybank.entity.myObject.UserView;
 import org.example.mybank.entity.myObject.addUser_param;
 import org.example.mybank.service.UserInfoService;
 import org.example.mybank.mapper.UserInfoMapper;
@@ -40,6 +41,13 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo>
     public boolean delUser(String identityNumber){
         userInfoMapper.deleteUserLogically(identityNumber);
         return true;
+    }
+
+    @Override
+    public UserView show (String identityNumber){
+        UserView userView =  userInfoMapper.selectUserInfoByIdentityNumber(identityNumber);
+        userView.setGender(Integer.valueOf(userView.getGender())==0?"男":"女");
+        return userView;
     }
 
 }

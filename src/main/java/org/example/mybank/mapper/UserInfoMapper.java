@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.example.mybank.entity.UserInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.example.mybank.entity.myObject.UserView;
 import org.example.mybank.entity.myObject.addUser_param;
 
 /**
@@ -25,6 +26,19 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
     @Update("UPDATE user_info SET isValid = 0 WHERE identityNumber = #{identityNumber}")
     boolean deleteUserLogically(String identityNumber);
+
+
+
+//    select userName,gender,identityNumber,phoneNumber,email" +
+//            "from user_info where indetityNumber = #{identityNumber}
+
+    @Select("select userName,gender,identityNumber,phoneNumber,email from user_info where identityNumber = #{identityNumber}")
+    public UserView selectUserInfoByIdentityNumber(String identityNumber);
+
+
+
+
+
 }
 
 
